@@ -8,6 +8,14 @@
         <servlet-name>AdmissionForm</servlet-name>
         <servlet-class>AdmissionForm</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TimeTable</servlet-name>
+        <servlet-class>TimeTable</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Calculator</servlet-name>
+        <servlet-class>Calculator</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ResultProcessor</servlet-name>
         <url-pattern>/ResultProcessor</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>AdmissionForm</servlet-name>
         <url-pattern>/AdmissionForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TimeTable</servlet-name>
+        <url-pattern>/TimeTable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Calculator</servlet-name>
+        <url-pattern>/Calculator</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

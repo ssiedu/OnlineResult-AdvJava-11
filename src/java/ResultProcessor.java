@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -11,56 +12,74 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ResultProcessor extends HttpServlet {
 
+    PreparedStatement ps;
+    Connection con;
+    
+    public void init() {
+        try{
+        String sql = "SELECT * FROM student where rno=?";
+        Class.forName("com.mysql.jdbc.Driver");
+        System.out.println("Driver Loaded");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/resultdata", "root", "root");
+        System.out.println("Connected Successfully");
+        ps = con.prepareStatement(sql);
+        }
+        catch(Exception e){e.printStackTrace();}
+    }
+
+    public void destroy() {
+        try{
+            con.close();
+            System.out.println("Connection Closed");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        PrintWriter out=response.getWriter();
-        
-        //reads-the-request
-            String s=request.getParameter("rno");
+        System.out.println("SHOWING RESULT");
+        PrintWriter out = response.getWriter();
+//reads-the-request
+        String s = request.getParameter("rno");
         //process-the-request
-            String sql="SELECT * FROM student where rno=?";
-            try{
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/resultdata","root","root");
-                PreparedStatement ps=con.prepareStatement(sql);
-                ps.setInt(1, Integer.parseInt(s));
-                ResultSet rs=ps.executeQuery();
-                boolean b=rs.next();
-                if(b==true){
-                String s1=rs.getString(1);//rno
-                String s2=rs.getString(2);//name
-                int m1=rs.getInt(3);
-                int m2=rs.getInt(4);
-                int m3=rs.getInt(5);
-                int total=m1+m2+m3;
-                
+        try {
+            ps.setInt(1, Integer.parseInt(s));
+            ResultSet rs = ps.executeQuery();
+            boolean b = rs.next();
+            if (b == true) {
+                String s1 = rs.getString(1);//rno
+                String s2 = rs.getString(2);//name
+                int m1 = rs.getInt(3);
+                int m2 = rs.getInt(4);
+                int m3 = rs.getInt(5);
+                int total = m1 + m2 + m3;
                 out.println("<html><body><h3>Semester Result</h3>");
                 out.println("<hr>");
                 out.println("<table border=2>");
                 out.println("<tr>");
                 out.println("<td>RollNo</td>");
-                out.println("<td>"+s1+"</td>");
+                out.println("<td>" + s1 + "</td>");
                 out.println("</tr>");
                 out.println("<tr>");
                 out.println("<td>Name</td>");
-                out.println("<td>"+s2+"</td>");
+                out.println("<td>" + s2 + "</td>");
                 out.println("</tr>");
                 out.println("<tr>");
                 out.println("<td>Maths</td>");
-                out.println("<td>"+m1+"</td>");
+                out.println("<td>" + m1 + "</td>");
                 out.println("</tr>");
                 out.println("<tr>");
                 out.println("<td>CompSc</td>");
-                out.println("<td>"+m2+"</td>");
+                out.println("<td>" + m2 + "</td>");
                 out.println("</tr>");
                 out.println("<tr>");
                 out.println("<td>English</td>");
-                out.println("<td>"+m3+"</td>");
+                out.println("<td>" + m3 + "</td>");
                 out.println("</tr>");
                 out.println("<tr>");
                 out.println("<td>Total</td>");
-                out.println("<td>"+total+"</td>");
+                out.println("<td>" + total + "</td>");
                 out.println("</tr>");
                 out.println("</table>");
                 out.println("<hr>");
@@ -68,20 +87,15 @@ public class ResultProcessor extends HttpServlet {
                 out.println("<marquee><h4>college will reopen on 15th July</h4></marquee>");
                 out.println("</body>");
                 out.println("</html>");
-                }else{
-                    out.println("Invalid Roll Number");
-                }
-                
-                out.close();
-                con.close();
-                
-             
-            }catch(Exception e){
-                out.println(e);
+            } else {
+                out.println("Invalid Roll Number");
             }
-        
-        
-        
+
+            out.close();
+        } catch (Exception e) {
+            out.println(e);
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

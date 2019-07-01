@@ -1,30 +1,32 @@
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AdmissionForm extends HttpServlet {
+public class Calculator extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //setting a response header
-        //sending some info to browser along with response
-        response.setContentType("application/msword");
-        //request-read
-        //process
-            //it needs to read a file (e:/data/AdmissionForm.docx"
-            FileInputStream fis=new FileInputStream("e:/data/AdmissionForm.docx");
-            int n=fis.available();
-            byte b[]=new byte[n];
-            fis.read(b);
-            fis.close();
-        //response
-            ServletOutputStream out=response.getOutputStream();
-            out.write(b);
-            out.close();
+        
+        PrintWriter out=response.getWriter();
+        
+        String s1=request.getParameter("oper");
+        //String s2=request.getParameter("num");
+        //String s3=request.getParameter("num");
+        String values[]=request.getParameterValues("num");
+        
+        int sum=0;
+        
+        for(String val:values){
+            sum=sum+Integer.parseInt(val);
+        }
+        
+        out.println("ADDITION  : "+sum);
+        
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

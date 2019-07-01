@@ -6,25 +6,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AdmissionForm extends HttpServlet {
+public class TimeTable extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //setting a response header
-        //sending some info to browser along with response
-        response.setContentType("application/msword");
-        //request-read
-        //process
-            //it needs to read a file (e:/data/AdmissionForm.docx"
-            FileInputStream fis=new FileInputStream("e:/data/AdmissionForm.docx");
-            int n=fis.available();
-            byte b[]=new byte[n];
-            fis.read(b);
-            fis.close();
-        //response
-            ServletOutputStream out=response.getOutputStream();
-            out.write(b);
-            out.close();
+        
+        response.setContentType("application/vnd.ms-excel");
+        //read the excel file
+        FileInputStream fis=new FileInputStream("e:/data/TimeTable.xlsx");
+        byte b[]=new byte[fis.available()];
+        fis.read(b);
+        fis.close();
+        //send the contents to client
+        ServletOutputStream out=response.getOutputStream();
+        out.write(b);
+        out.close();
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
